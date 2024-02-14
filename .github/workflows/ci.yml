@@ -63,7 +63,9 @@ jobs:
     - name: Bit Tag and Export
       uses: bit-tasks/tag-export@v1
     - name: Commit Bitmap
-      uses: bit-tasks/commit-bitmap@main
+      uses: ./
       with:
-          skip-push: 'true'
-          skip-ci: 'false'
+        GIT_USER_NAME: 'ashanfernando'
+        GIT_USER_EMAIL: 'ashan256@gmail.com'
+        skip-push: 'true'
+        skip-ci: 'false'
