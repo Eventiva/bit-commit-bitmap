@@ -3969,16 +3969,16 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(186));
 const commit_bitmap_1 = __importDefault(__nccwpck_require__(35));
 try {
-    const wsDir = core.getInput("ws-dir") || process.env.WSDIR || "./";
-    const skipPush = core.getInput("skip-push") === "true" ? true : false;
-    const skipCI = core.getInput("skip-ci") === "false" ? false : true;
+    const wsDir = process.env.WSDIR;
+    const skipPush = core.getInput('skip-push') === 'true' ? true : false;
+    const skipCI = core.getInput('skip-ci') === 'false' ? false : true;
     const gitUserName = process.env.GIT_USER_NAME;
     if (!gitUserName) {
-        throw new Error("Git user name not found");
+        throw new Error('Git user name not found');
     }
     const gitUserEmail = process.env.GIT_USER_EMAIL;
     if (!gitUserEmail) {
-        throw new Error("Git user email token not found");
+        throw new Error('Git user email token not found');
     }
     (0, commit_bitmap_1.default)(skipPush, skipCI, gitUserName, gitUserEmail, wsDir);
 }
@@ -4007,12 +4007,12 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const exec_1 = __nccwpck_require__(514);
 const run = (skipPush, skipCI, gitUserName, gitUserEmail, wsdir) => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, exec_1.exec)(`git config --global user.name "${gitUserName}"`, [], {
-        cwd: wsdir,
+        cwd: wsdir
     });
     yield (0, exec_1.exec)(`git config --global user.email "${gitUserEmail}"`, [], {
-        cwd: wsdir,
+        cwd: wsdir
     });
-    yield (0, exec_1.exec)("git add .bitmap pnpm-lock.yaml", [], { cwd: wsdir });
+    yield (0, exec_1.exec)('git add .bitmap pnpm-lock.yaml', [], { cwd: wsdir });
     try {
         yield (0, exec_1.exec)(`git commit -m "update .bitmap and pnpm-lock.yaml with new component and dependency versions (automated)${skipCI ? ` [skip-ci]` : ''}"`, [], { cwd: wsdir });
     }
@@ -4020,7 +4020,7 @@ const run = (skipPush, skipCI, gitUserName, gitUserEmail, wsdir) => __awaiter(vo
         console.error(`Error while committing changes`);
     }
     if (!skipPush) {
-        yield (0, exec_1.exec)("git push", [], { cwd: wsdir });
+        yield (0, exec_1.exec)('git push', [], { cwd: wsdir });
     }
 });
 exports["default"] = run;

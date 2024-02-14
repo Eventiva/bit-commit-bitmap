@@ -7,12 +7,35 @@ inputs:
   ws-dir:
     description: "Workspace json file directory path"
     required: false
+    default: './'
   skip-push:
     description: "Skip commit push (for testing)"
     required: false
   skip-ci:
     description: "Remove adding [skip-ci] to the .bitmap file commit message"
     required: false
+  token:
+    description: "Github token"
+    required: false
+  GIT_USER_NAME:
+    description: "Git user name"
+    required: false
+  GIT_USER_EMAIL:
+    description: "Git user email"
+    required: false
+  
 runs:
-  using: 'node20'
-  main: 'dist/index.js'
+  using: 'composite'
+  steps:
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    - name: Run Bit Initialization Script
+      run: node ${{ github.action_path }}/dist/index.js
+      shell: bash
+      env:
+        WS_DIR: ${{ inputs.ws-dir }}
+        GIT_USER_NAME: ${{ inputs.GIT_USER_NAME }}
+        GIT_USER_EMAIL: ${{ inputs.GIT_USER_EMAIL }}
+        GITHUB_TOKEN: ${{ inputs.token }}
